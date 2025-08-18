@@ -1,3 +1,28 @@
+// Mobile Navigation
+const hamburger = document.getElementById("hamburger");
+const mobileNav = document.getElementById("mobileNav");
+const navOverlay = document.getElementById("navOverlay");
+
+function toggleMobileNav() {
+    hamburger.classList.toggle("active");
+    mobileNav.classList.toggle("active");
+    navOverlay.classList.toggle("active");
+    document.body.style.overflow = mobileNav.classList.contains("active")
+        ? "hidden"
+        : "";
+}
+
+hamburger.addEventListener("click", toggleMobileNav);
+navOverlay.addEventListener("click", toggleMobileNav);
+
+// Close mobile nav when clicking on a link
+const mobileNavLinks = document.querySelectorAll(".mobile-nav a");
+mobileNavLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+        toggleMobileNav();
+    });
+});
+
 // Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener("click", function (e) {
