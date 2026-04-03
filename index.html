@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
@@ -28,7 +28,7 @@
                     style="
                         background: none;
                         border: none;
-                        font-family: 'DM Mono', monospace;
+                        font-family: &quot;DM Mono&quot;, monospace;
                         font-size: 0.72rem;
                         letter-spacing: 0.12em;
                         text-transform: uppercase;
@@ -37,8 +37,8 @@
                         padding: 0;
                         transition: opacity 0.2s;
                     "
-                    onmouseover="this.style.opacity='0.7'"
-                    onmouseout="this.style.opacity='1'"
+                    onmouseover="this.style.opacity = '0.7'"
+                    onmouseout="this.style.opacity = '1'"
                 >
                     Resume ↗
                 </button>
@@ -258,6 +258,75 @@
                 <div class="project-card">
                     <div class="project-num">001</div>
                     <div class="project-title">
+                        Virtual AI Agent Team — Waterfall Project Automation
+                    </div>
+                    <p class="project-desc">
+                        Fully automated multi-agent AI pipeline simulating an
+                        end-to-end Waterfall SDLC — no human input required. 7
+                        sequential agents (Customer Proxy, PM, Requirements,
+                        System, Software, Test, and Docs Engineers) share a
+                        growing conversation history via LangChain. Generates
+                        all 5 Waterfall phases and 10+ artifacts per run
+                        including SRS documents, REST API specs, DB schemas,
+                        test plans, and user manuals.
+                        <br /><br />
+                        Ran a comparative experiment across 3 LLMs with a team
+                        of 3: GPT-4o-mini produced 35 requirements, DeepSeek-V3
+                        produced 66, and Claude Haiku produced 230 — a 6.5×
+                        spread. Combined: 575 requirements, 301 test cases, and
+                        337 documentation pages. Key finding: model capability,
+                        not prompt design, drove output richness.
+                    </p>
+                    <div class="project-tags">
+                        <span class="project-tag">LangChain</span>
+                        <span class="project-tag">GPT-4o-mini</span>
+                        <span class="project-tag">Claude Haiku</span>
+                        <span class="project-tag">DeepSeek-V3</span>
+                        <span class="project-tag">Python</span>
+                        <span class="project-tag">Jupyter</span>
+                    </div>
+                    <a
+                        href="https://github.com/koustav516/CS587-FoodieHub-Waterfall-LangChain"
+                        class="project-link"
+                        target="_blank"
+                        >View on GitHub →</a
+                    >
+                </div>
+                <div class="project-card">
+                    <div class="project-num">002</div>
+                    <div class="project-title">
+                        Smart Home E-commerce Web Application
+                    </div>
+                    <p class="project-desc">
+                        Full-stack e-commerce platform built with Java Servlets,
+                        JSP, and MySQL — supporting 5 product categories with
+                        authentication, cart, and order workflows.
+                        <br /><br />
+                        Integrated AI-powered product recommendations and
+                        semantic review search using embeddings, improving
+                        product discovery by 30% across 1,000+ records. Built an
+                        intelligent customer support system that analyzes
+                        uploaded images and automates
+                        refund/replacement/escalation decisions, cutting manual
+                        effort by 60%.
+                    </p>
+                    <div class="project-tags">
+                        <span class="project-tag">Java Servlets</span>
+                        <span class="project-tag">JSP</span>
+                        <span class="project-tag">MySQL</span>
+                        <span class="project-tag">Embeddings</span>
+                        <span class="project-tag">AI Recommendations</span>
+                    </div>
+                    <a
+                        href="https://github.com/koustav516/SmartHome"
+                        class="project-link"
+                        target="_blank"
+                        >View on GitHub →</a
+                    >
+                </div>
+                <div class="project-card">
+                    <div class="project-num">003</div>
+                    <div class="project-title">
                         AI-Powered Email Writer & Reply Assistant
                     </div>
                     <p class="project-desc">
@@ -282,7 +351,7 @@
                     >
                 </div>
                 <div class="project-card">
-                    <div class="project-num">002</div>
+                    <div class="project-num">004</div>
                     <div class="project-title">Bcare Institute Website</div>
                     <p class="project-desc">
                         Fully responsive institutional website serving 500+
@@ -306,7 +375,7 @@
                     >
                 </div>
                 <div class="project-card">
-                    <div class="project-num">003</div>
+                    <div class="project-num">005</div>
                     <div class="project-title">
                         Online Campground Portfolio Portal
                     </div>
@@ -344,7 +413,8 @@
                     <div style="text-align: center; color: var(--muted)">
                         <div
                             style="
-                                font-family: 'Playfair Display', serif;
+                                font-family:
+                                    &quot;Playfair Display&quot;, serif;
                                 font-size: 1.2rem;
                                 margin-bottom: 0.5rem;
                                 font-style: italic;
@@ -354,7 +424,7 @@
                         </div>
                         <div
                             style="
-                                font-family: 'DM Mono', monospace;
+                                font-family: &quot;DM Mono&quot;, monospace;
                                 font-size: 0.65rem;
                                 letter-spacing: 0.1em;
                                 text-transform: uppercase;
@@ -535,12 +605,12 @@
                         }
                     });
                 },
-                { threshold: 0.1 }
+                { threshold: 0.1 },
             );
 
             document
                 .querySelectorAll(
-                    ".exp-item, .skill-group, .project-card, .edu-card, .stat-card"
+                    ".exp-item, .skill-group, .project-card, .edu-card, .stat-card",
                 )
                 .forEach((el) => {
                     el.style.opacity = "0";
