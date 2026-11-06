@@ -1,687 +1,435 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Koustav Majumder — Software Engineer</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap"
-            rel="stylesheet"
-        />
-        <link rel="stylesheet" href="style.css" />
-    </head>
-    <body>
-        <div class="cursor" id="cursor"></div>
-        <div class="cursor-ring" id="cursorRing"></div>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Koustav Majumder — Backend Software Engineer</title>
+    <meta name="description" content="Koustav Majumder — Software Engineer building Java & Spring Boot microservices, REST APIs and asynchronous workflows. Chicago, IL." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <script>
+        // Set theme before paint to avoid flash
+        (function () {
+            try {
+                var t = localStorage.getItem("km-theme");
+                if (!t) t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+                document.documentElement.setAttribute("data-theme", t);
+            } catch (e) {}
+        })();
+    </script>
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
 
-        <nav>
-            <div class="nav-logo">KM.</div>
-            <div class="nav-links">
-                <a href="#experience">Experience</a>
-                <a href="#skills">Skills</a>
-                <a href="#projects">Projects</a>
-                <a href="#education">Education</a>
-                <a href="#contact">Contact</a>
-                <button
-                    onclick="openResume()"
-                    style="
-                        background: none;
-                        border: none;
-                        font-family: &quot;DM Mono&quot;, monospace;
-                        font-size: 0.72rem;
-                        letter-spacing: 0.12em;
-                        text-transform: uppercase;
-                        color: var(--accent);
-                        cursor: none;
-                        padding: 0;
-                        transition: opacity 0.2s;
-                    "
-                    onmouseover="this.style.opacity = '0.7'"
-                    onmouseout="this.style.opacity = '1'"
-                >
-                    Resume ↗
-                </button>
-            </div>
+    <!-- request progress line + status toast -->
+    <div class="req-line" id="reqLine" aria-hidden="true"></div>
+    <div class="req-toast" id="reqToast" role="status" aria-live="polite"></div>
+
+    <header class="topbar" id="top">
+        <a href="#home" class="monogram" aria-label="Koustav Majumder, home">K<span>M</span></a>
+        <nav class="endpoints" aria-label="Primary">
+            <a href="#experience" data-endpoint="/experience"><span class="verb">GET</span>/experience</a>
+            <a href="#stack" data-endpoint="/stack"><span class="verb">GET</span>/stack</a>
+            <a href="#projects" data-endpoint="/projects"><span class="verb">GET</span>/projects</a>
+            <a href="#education" data-endpoint="/education"><span class="verb">GET</span>/education</a>
+            <a href="#contact" data-endpoint="/contact"><span class="verb post">POST</span>/contact</a>
         </nav>
+        <div class="topbar-actions">
+            <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">
+                <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+            <button class="btn btn-ghost btn-sm" data-open-resume>Résumé</button>
+            <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+            </button>
+        </div>
+        <nav class="mobile-nav" id="mobileNav" aria-label="Mobile">
+            <a href="#experience"><span class="verb">GET</span>/experience</a>
+            <a href="#stack"><span class="verb">GET</span>/stack</a>
+            <a href="#projects"><span class="verb">GET</span>/projects</a>
+            <a href="#education"><span class="verb">GET</span>/education</a>
+            <a href="#contact"><span class="verb post">POST</span>/contact</a>
+        </nav>
+    </header>
 
-        <!-- HERO -->
+    <main id="main">
+        <!-- ============ HERO ============ -->
         <section class="hero" id="home">
-            <div class="hero-bg"></div>
-            <div class="hero-grid-lines"></div>
-            <div class="hero-left">
-                <div class="hero-tag">Available for opportunities</div>
-                <h1>
-                    Koustav<br />
-                    <span class="line-italic">Majumder</span>
-                </h1>
-                <p class="hero-desc">
-                    Software Engineer crafting scalable backend systems,
-                    intelligent applications, and full-stack solutions with 2+
-                    years at Capgemini & Illinois Tech.
+            <div class="hero-copy">
+                <div class="eyebrow">
+                    <img class="portrait" src="./assets/photo.jpg" alt="Portrait of Koustav Majumder" width="56" height="56" />
+                    <div>
+                        <span class="dot-live" aria-hidden="true"></span>
+                        <span>Open to backend roles · Chicago, IL · Willing to relocate</span>
+                    </div>
+                </div>
+                <h1 class="display">Koustav<br /><em>Majumder</em></h1>
+                <p class="role-line">Software Engineer — <span>Java · Spring Boot · Microservices</span></p>
+                <p class="lede">
+                    I build the quiet parts of software that have to work every time: REST APIs,
+                    asynchronous workflows and data layers for financial services and research platforms.
+                    Two and a half years of shipping, tuning and keeping production healthy.
                 </p>
                 <div class="hero-cta">
-                    <a href="#projects" class="btn-primary">View Work →</a>
-                    <a href="#contact" class="btn-outline">Get in Touch</a>
-                    <button
-                        class="btn-outline"
-                        onclick="openResume()"
-                        style="
-                            background: none;
-                            border: 1px solid var(--border);
-                        "
-                    >
-                        <svg
-                            width="14"
-                            height="14"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.5"
-                        >
-                            <path
-                                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
-                            />
-                            <polyline points="14 2 14 8 20 8" />
-                            <line x1="16" y1="13" x2="8" y2="13" />
-                            <line x1="16" y1="17" x2="8" y2="17" />
-                            <polyline points="10 9 9 9 8 9" />
-                        </svg>
-                        Resume
+                    <a href="#experience" class="btn btn-primary" data-endpoint="/experience">View experience</a>
+                    <a href="#contact" class="btn btn-ghost" data-endpoint="/contact">Get in touch</a>
+                </div>
+            </div>
+
+            <!-- Live API console -->
+            <div class="console" aria-label="Interactive API console">
+                <div class="console-head">
+                    <div class="lights" aria-hidden="true"><i></i><i></i><i></i></div>
+                    <span class="console-title">api.koustav.dev</span>
+                    <span class="console-env">prod</span>
+                </div>
+                <div class="console-tabs" role="tablist" aria-label="Choose an endpoint">
+                    <button role="tab" class="ctab" data-route="profile" aria-selected="true">/profile</button>
+                    <button role="tab" class="ctab" data-route="metrics" aria-selected="false">/metrics</button>
+                    <button role="tab" class="ctab" data-route="stack" aria-selected="false">/stack</button>
+                    <button role="tab" class="ctab" data-route="status" aria-selected="false">/status</button>
+                </div>
+                <div class="console-req">
+                    <span class="verb">GET</span>
+                    <code id="reqPath">/api/v1/koustav/profile</code>
+                    <button class="send-btn" id="sendBtn">Send
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                    </button>
+                </div>
+                <div class="console-meta" id="resMeta" aria-live="polite">
+                    <span class="status-pill pending">— — —</span>
+                </div>
+                <pre class="console-body" id="resBody" tabindex="0" aria-label="Response body"></pre>
+                <div class="console-foot">
+                    <span>Pick an endpoint, then hit <kbd>Send</kbd></span>
+                    <span id="reqCount">0 requests</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ METRICS LEDGER ============ -->
+        <section class="ledger" aria-label="Key metrics">
+            <div class="ledger-item">
+                <div class="figure"><span data-count="2.5" data-decimals="1">0</span><small>yrs</small></div>
+                <div class="caption">Industry experience</div>
+            </div>
+            <div class="ledger-item">
+                <div class="figure"><span data-count="1">0</span><small>M+</small></div>
+                <div class="caption">Monthly API requests supported</div>
+            </div>
+            <div class="ledger-item">
+                <div class="figure"><span data-count="40">0</span><small>%</small></div>
+                <div class="caption">Faster APIs &amp; queries</div>
+            </div>
+            <div class="ledger-item">
+                <div class="figure"><span data-count="85">0</span><small>%</small></div>
+                <div class="caption">Automated test coverage</div>
+            </div>
+            <div class="ledger-item">
+                <div class="figure"><span data-count="99.9" data-decimals="1">0</span><small>%</small></div>
+                <div class="caption">Platform uptime sustained</div>
+            </div>
+        </section>
+
+        <!-- ============ EXPERIENCE ============ -->
+        <section class="section" id="experience">
+            <header class="section-head reveal">
+                <div class="route"><span class="verb">GET</span> /experience <span class="st-span" aria-label="3 roles, 2020 to now"><span>2020</span><span class="track" aria-hidden="true"><i style="left:0"></i><i style="left:21%"></i><i class="now" style="left:100%"></i></span><span>now</span></span></div>
+                <h2>Where I've <em>worked</em></h2>
+            </header>
+
+            <div class="exp">
+                <div class="exp-tabs" role="tablist" aria-label="Employers">
+                    <button role="tab" id="t-cdf" aria-controls="p-cdf" aria-selected="true" class="exp-tab">
+                        <span class="exp-tab-co">Community Dreams Foundation</span>
+                        <span class="exp-tab-date">Aug 2026 — Present</span>
+                    </button>
+                    <button role="tab" id="t-cap" aria-controls="p-cap" aria-selected="false" class="exp-tab" tabindex="-1">
+                        <span class="exp-tab-co">Capgemini</span>
+                        <span class="exp-tab-date">Aug 2021 — Sep 2023</span>
+                    </button>
+                    <button role="tab" id="t-anx" aria-controls="p-anx" aria-selected="false" class="exp-tab" tabindex="-1">
+                        <span class="exp-tab-co">Annexbyte IT Solutions</span>
+                        <span class="exp-tab-date">Mar 2020 — Jun 2020</span>
+                    </button>
+                </div>
+
+                <div class="exp-panels">
+                    <article role="tabpanel" id="p-cdf" aria-labelledby="t-cdf" class="exp-panel is-active">
+                        <div class="exp-panel-head">
+                            <h3>Backend Developer <span>@ Community Dreams Foundation</span></h3>
+                            <p class="exp-loc">Chicago, IL · Aug 2026 — Present</p>
+                        </div>
+                        <p class="exp-context">Backend services for <strong>Elpsan Bio</strong>, a research platform focused on automated phenotype extraction and therapeutic discovery.</p>
+                        <ul class="exp-list">
+                            <li>Designed and developed Java and Spring Boot backend services for the Elpsan Bio research platform.</li>
+                            <li>Implemented service-to-service communication and JSON REST APIs for high-volume transactional workflows, reducing average API latency by <mark>28%</mark>.</li>
+                            <li>Optimized relational data access with Spring Data JPA and Hibernate on Oracle and PostgreSQL. Indexing, query tuning and connection pooling cut query execution time by <mark>40%</mark>.</li>
+                            <li>Added unit and API integration tests with JUnit and WireMock, raising coverage to <mark>85%</mark> and reducing regression defects by <mark>40%</mark>.</li>
+                            <li>Improved Jenkins CI/CD pipelines for automated build, test and deploy to PCF, reducing release time by <mark>45%</mark> with zero-downtime deployments.</li>
+                            <li>Worked with cross-functional teammates to clarify requirements and align API and service design with expected behavior.</li>
+                        </ul>
+                        <div class="tags"><span>Java</span><span>Spring Boot</span><span>Spring Data JPA</span><span>Hibernate</span><span>Oracle</span><span>PostgreSQL</span><span>JUnit</span><span>WireMock</span><span>Jenkins</span><span>PCF</span></div>
+                    </article>
+
+                    <article role="tabpanel" id="p-cap" aria-labelledby="t-cap" class="exp-panel" hidden>
+                        <div class="exp-panel-head">
+                            <h3>Software Engineer <span>@ Capgemini Technology Services</span></h3>
+                            <p class="exp-loc">India · Aug 2021 — Sep 2023</p>
+                        </div>
+                        <p class="exp-context">Client: <strong>Discover Financial Services</strong>, digital banking platform.</p>
+                        <ul class="exp-list">
+                            <li>Developed scalable Java and Spring Boot REST APIs, reducing response latency by <mark>40%</mark> through asynchronous processing.</li>
+                            <li>Contributed to a microservices architecture with emphasis on security, compliance and high availability.</li>
+                            <li>Built and maintained Jenkins CI/CD pipelines enabling zero-downtime releases across <mark>five</mark> PCF/OpenShift environments.</li>
+                            <li>Analyzed production logs and application metrics to help sustain <mark>99.9%</mark> uptime and reduce incident resolution time.</li>
+                            <li>Established automated unit and integration testing with JUnit and WireMock to improve coverage and deployment reliability.</li>
+                            <li>Owned engineering tasks end to end, from requirement clarification through development, testing and release.</li>
+                        </ul>
+                        <div class="tags"><span>Java</span><span>Spring Boot</span><span>Microservices</span><span>Async processing</span><span>Jenkins</span><span>PCF</span><span>OpenShift</span><span>JUnit</span><span>WireMock</span></div>
+                    </article>
+
+                    <article role="tabpanel" id="p-anx" aria-labelledby="t-anx" class="exp-panel" hidden>
+                        <div class="exp-panel-head">
+                            <h3>Software Developer Intern <span>@ Annexbyte IT Solutions</span></h3>
+                            <p class="exp-loc">India · Mar 2020 — Jun 2020</p>
+                        </div>
+                        <ul class="exp-list">
+                            <li>Built REST endpoints and service-layer features in an existing Spring Boot application, taking features from development to production in two-week sprints.</li>
+                            <li>Replaced N+1 query patterns and unindexed lookups with tuned JPA queries and stored procedures on MySQL. Order-history page load fell from <mark>~6s to under 2s</mark>.</li>
+                            <li>Wrote Dockerfiles and OpenShift deployment configs for two Spring services, cutting environment provisioning from <mark>two days to a few hours</mark>.</li>
+                            <li>Added JUnit and Mockito tests for legacy service classes and resolved defects found in QA regression cycles.</li>
+                        </ul>
+                        <div class="tags"><span>Spring Boot</span><span>JPA</span><span>MySQL</span><span>Docker</span><span>OpenShift</span><span>JUnit</span><span>Mockito</span></div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ STACK / ARCHITECTURE ============ -->
+        <section class="section section-alt" id="stack">
+            <header class="section-head reveal">
+                <div class="route"><span class="verb">GET</span> /stack <span class="st-health"><span class="hb" aria-hidden="true"></span>healthy <span class="sep">·</span> <span id="nodeCount">28</span> components</span></div>
+                <h2>The <em>system</em> I work in</h2>
+                <p class="section-sub">My toolkit, laid out like a request travelling through a service. Select any component to see where I've used it in production.</p>
+            </header>
+
+            <div class="arch">
+                <div class="arch-layers" id="archLayers">
+                    <div class="arch-flow" aria-hidden="true"><span class="packet"></span></div>
+                    <div class="layer reveal">
+                        <div class="layer-label"><span>01</span>Interface</div>
+                        <div class="nodes">
+                            <button class="node" data-node="REST APIs">REST APIs</button>
+                            <button class="node" data-node="JSON">JSON</button>
+                            <button class="node" data-node="Service-to-service">Service-to-service</button>
+                            <button class="node" data-node="JavaScript">JavaScript</button>
+                        </div>
+                    </div>
+                    <div class="layer reveal">
+                        <div class="layer-label"><span>02</span>Application</div>
+                        <div class="nodes">
+                            <button class="node node-key" data-node="Java">Java 8+</button>
+                            <button class="node node-key" data-node="Spring Boot">Spring Boot</button>
+                            <button class="node" data-node="Spring Framework">Spring Framework</button>
+                            <button class="node" data-node="Microservices">Microservices</button>
+                            <button class="node" data-node="Async processing">Async processing</button>
+                            <button class="node" data-node="Design Patterns">OOP &amp; design patterns</button>
+                        </div>
+                    </div>
+                    <div class="layer reveal">
+                        <div class="layer-label"><span>03</span>Data &amp; messaging</div>
+                        <div class="nodes">
+                            <button class="node" data-node="Spring Data JPA">Spring Data JPA</button>
+                            <button class="node" data-node="Hibernate">Hibernate</button>
+                            <button class="node" data-node="Oracle">Oracle</button>
+                            <button class="node" data-node="PostgreSQL">PostgreSQL</button>
+                            <button class="node" data-node="MySQL">MySQL</button>
+                            <button class="node" data-node="SQL">SQL · PL/SQL</button>
+                            <button class="node" data-node="Kafka">Kafka</button>
+                        </div>
+                    </div>
+                    <div class="layer reveal">
+                        <div class="layer-label"><span>04</span>Quality</div>
+                        <div class="nodes">
+                            <button class="node" data-node="JUnit">JUnit</button>
+                            <button class="node" data-node="Mockito">Mockito</button>
+                            <button class="node" data-node="WireMock">WireMock</button>
+                            <button class="node" data-node="Jest">Jest · Supertest</button>
+                        </div>
+                    </div>
+                    <div class="layer reveal">
+                        <div class="layer-label"><span>05</span>Delivery</div>
+                        <div class="nodes">
+                            <button class="node" data-node="Git">Git</button>
+                            <button class="node" data-node="Maven">Maven · Gradle</button>
+                            <button class="node" data-node="Jenkins">Jenkins CI/CD</button>
+                            <button class="node" data-node="Docker">Docker</button>
+                            <button class="node" data-node="PCF">PCF</button>
+                            <button class="node" data-node="OpenShift">OpenShift</button>
+                            <button class="node" data-node="AWS">AWS</button>
+                        </div>
+                    </div>
+                </div>
+
+                <aside class="inspector" id="inspector" aria-live="polite">
+                    <div class="inspector-label">Inspector</div>
+                    <h3 id="inspName">Spring Boot</h3>
+                    <p id="inspNote" class="insp-note"></p>
+                    <div class="inspector-label">Used at</div>
+                    <ul id="inspUsed" class="insp-used"></ul>
+                </aside>
+            </div>
+        </section>
+
+        <!-- ============ PROJECTS ============ -->
+        <section class="section" id="projects">
+            <header class="section-head reveal">
+                <div class="route"><span class="verb">GET</span> /projects<span class="q">?filter=<b id="filterEcho">all</b></span> <span class="st-json" aria-live="polite"><span class="arr" aria-hidden="true">→</span> { <span class="k">"count"</span>: <span class="n" id="projCount">4</span> }</span></div>
+                <h2>Things I've <em>built</em></h2>
+            </header>
+
+            <div class="filters" role="group" aria-label="Filter projects">
+                <button class="filter is-on" data-filter="all" aria-pressed="true">All</button>
+                <button class="filter" data-filter="java" aria-pressed="false">Java / Spring</button>
+                <button class="filter" data-filter="node" aria-pressed="false">Node.js</button>
+                <button class="filter" data-filter="web" aria-pressed="false">Web</button>
+            </div>
+
+            <div class="projects">
+                <!-- Featured: MyBrandbae -->
+                <article class="project project-featured" data-cat="node">
+                    <div class="project-top">
+                        <span class="project-path">/projects/mybrandbae</span>
+                        <span class="badge-live"><span class="dot-live" aria-hidden="true"></span>Live · Current</span>
+                    </div>
+                    <h3>MyBrandbae <em>— a creator marketplace</em></h3>
+                    <p>
+                        A two-sided marketplace that runs influencer deals end to end: Instagram analytics, multi-creator
+                        campaigns and a six-stage collaboration workflow. Escrow-style payouts through Razorpay, with
+                        webhook verification and email notifications at every stage, mean creators get paid in
+                        48 hours instead of waiting months.
+                    </p>
+                    <dl class="project-stats">
+                        <div><dt>Payout time</dt><dd>3–6 mo <span class="arrow">→</span> 48 h</dd></div>
+                        <div><dt>Tests</dt><dd>87 <small>across 5 suites</small></dd></div>
+                        <div><dt>Roles</dt><dd>3 <small>Brand · Creator · Admin</small></dd></div>
+                        <div><dt>Admin API</dt><dd>10 <small>endpoints</small></dd></div>
+                    </dl>
+                    <div class="tags"><span>Node.js</span><span>Express</span><span>PostgreSQL</span><span>Razorpay</span><span>JWT + Google OAuth</span><span>RBAC</span><span>Jest</span><span>Supertest</span></div>
+                    <a href="https://mybrandbae.com" class="project-link" target="_blank" rel="noopener">Visit live site <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+                </article>
+
+                <article class="project" data-cat="java">
+                    <div class="project-top"><span class="project-path">/projects/email-writer</span></div>
+                    <h3>AI Email Writer &amp; Reply Assistant</h3>
+                    <p>A Gmail Chrome extension backed by Spring Boot that writes context-aware replies with the Gemini LLM. REST endpoints read the email's context and the requested tone, and custom Gmail controls are injected through Manifest V3 content scripts.</p>
+                    <div class="tags"><span>Spring Boot</span><span>React</span><span>Gemini LLM</span><span>Chrome MV3</span><span>REST</span></div>
+                    <a href="https://github.com/koustav516/email-writer-backend" class="project-link" target="_blank" rel="noopener">View on GitHub <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+                </article>
+
+                <article class="project" data-cat="web">
+                    <div class="project-top"><span class="project-path">/projects/bcare</span></div>
+                    <h3>Bcare Institute Website</h3>
+                    <p>A responsive institutional site serving 500+ monthly visitors, with faculty listings, course pages, carousels and department filtering. SEO work raised content discoverability by 40% and cut bounce rate by 25%.</p>
+                    <div class="tags"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Netlify</span><span>SEO</span></div>
+                    <a href="https://bimtedu.org" class="project-link" target="_blank" rel="noopener">Live site <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+                </article>
+
+                <article class="project" data-cat="node">
+                    <div class="project-top"><span class="project-path">/projects/campground</span></div>
+                    <h3>Online Campground Portal</h3>
+                    <p>A full-stack campground app with secure authentication and full CRUD. It uses Cloudinary for image uploads and Mapbox for geolocation maps, and supports ratings, reviews and dynamic search.</p>
+                    <div class="tags"><span>Node.js</span><span>Express</span><span>MongoDB</span><span>EJS</span><span>Mapbox</span><span>Cloudinary</span></div>
+                    <a href="https://github.com/koustav516/yelpcamp-updated" class="project-link" target="_blank" rel="noopener">View on GitHub <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+                </article>
+            </div>
+            <p class="empty" id="projEmpty" hidden>No projects match this filter.</p>
+        </section>
+
+        <!-- ============ EDUCATION ============ -->
+        <section class="section section-alt" id="education">
+            <header class="section-head reveal">
+                <div class="route"><span class="verb">GET</span> /education <span class="st-seal">Verified</span></div>
+                <h2>Academic <em>record</em></h2>
+            </header>
+            <div class="edu">
+                <div class="edu-item reveal">
+                    <div class="edu-year">2026</div>
+                    <div>
+                        <h3>Master of Science, Computer Science</h3>
+                        <p class="edu-school">Illinois Institute of Technology</p>
+                        <p class="edu-meta">Chicago, IL · Aug 2024 — May 2026 · GPA 3.45</p>
+                    </div>
+                </div>
+                <div class="edu-item reveal">
+                    <div class="edu-year">2021</div>
+                    <div>
+                        <h3>Bachelor of Technology, Computer Science Engineering</h3>
+                        <p class="edu-school">Amity University</p>
+                        <p class="edu-meta">Kolkata, India · Aug 2017 — May 2021</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ CONTACT ============ -->
+        <section class="contact" id="contact">
+            <div class="contact-inner">
+                <div class="route route-light"><span class="verb post">POST</span> /contact <span class="st-term"><span aria-hidden="true">←</span> 201 Created<span class="caret" aria-hidden="true"></span></span></div>
+                <h2>Let's build something <em>reliable.</em></h2>
+                <p>I'm looking for full-time backend and Java engineering roles. Recruiters and engineers are both welcome to reach out, and I usually reply within a day.</p>
+
+                <div class="curl">
+                    <pre><span class="c-cmd">curl</span> -X POST <span class="c-str">https://api.koustav.dev/contact</span> \
+  -d <span class="c-str">'{"to": "<span id="emailText">koustav516@gmail.com</span>"}'</span></pre>
+                    <button class="copy-btn" id="copyEmail" aria-label="Copy email address">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                        <span>Copy email</span>
+                    </button>
+                </div>
+
+                <div class="contact-links">
+                    <a href="mailto:koustav516@gmail.com" class="clink">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>Email</a>
+                    <a href="https://www.linkedin.com/in/koustav-majumder-030b931a0/" target="_blank" rel="noopener" class="clink">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+                    <a href="https://github.com/koustav516" target="_blank" rel="noopener" class="clink">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>GitHub</a>
+                    <a href="tel:+13124834164" class="clink">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>+1 312-483-4164</a>
+                    <button class="clink clink-primary" data-open-resume>
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg>Résumé</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <span>© 2026 Koustav Majumder · Chicago, IL</span>
+        <span class="footer-uptime"><span class="dot-live" aria-hidden="true"></span>All systems operational</span>
+        <a href="#home">Back to top ↑</a>
+    </footer>
+
+    <!-- Résumé modal -->
+    <div class="modal" id="resumeModal" role="dialog" aria-modal="true" aria-labelledby="resumeTitle" hidden>
+        <div class="modal-card">
+            <div class="modal-head">
+                <span id="resumeTitle">Koustav Majumder — Résumé</span>
+                <div class="modal-actions">
+                    <a class="btn btn-primary btn-sm" href="./assets/resume.pdf" download="Koustav_Majumder_Software_Engineer.pdf">Download PDF</a>
+                    <button class="icon-btn" id="closeResume" aria-label="Close résumé">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
                     </button>
                 </div>
             </div>
-            <div class="hero-right">
-                <div class="hero-photo-wrap">
-                    <img
-                        class="hero-photo"
-                        src="./assets/photo.jpg"
-                        alt="Koustav Majumder"
-                    />
-                </div>
-                <div class="hero-stats">
-                    <div class="stat-card">
-                        <div class="stat-number">2+</div>
-                        <div class="stat-label">Years Industry Exp.</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">40%</div>
-                        <div class="stat-label">Latency Reduction</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">99.9%</div>
-                        <div class="stat-label">Platform Uptime</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">3.45</div>
-                        <div class="stat-label">MS GPA @ IIT</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- EXPERIENCE -->
-        <section class="experience" id="experience">
-            <div class="section-header">
-                <span class="section-num">01 /</span>
-                <h2>Work <em>Experience</em></h2>
-            </div>
-            <div class="exp-list">
-                <div class="exp-item">
-                    <div class="exp-meta">
-                        <div class="exp-company">
-                            Capgemini Technology Services
-                        </div>
-                        <div class="exp-period">Aug 2021 — Sep 2023</div>
-                    </div>
-                    <div>
-                        <div class="exp-role">Software Engineer</div>
-                        <ul class="exp-bullets">
-                            <li>
-                                Engineered scalable REST APIs in Spring Boot for
-                                Discover Financial Services' digital banking
-                                platform, cutting response latency by 40%
-                                through asynchronous processing.
-                            </li>
-                            <li>
-                                Contributed to microservices architecture with
-                                emphasis on security, compliance, and high
-                                availability.
-                            </li>
-                            <li>
-                                Architected CI/CD pipelines using Jenkins
-                                enabling zero-downtime releases across 5 PCF/OCP
-                                environments.
-                            </li>
-                            <li>
-                                Established automated testing frameworks with
-                                JUnit and WireMock, increasing code coverage and
-                                deployment reliability.
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="exp-item">
-                    <div class="exp-meta">
-                        <div class="exp-company">Annexbyte IT Solutions</div>
-                        <div class="exp-period">Apr 2020 — Jun 2020</div>
-                    </div>
-                    <div>
-                        <div class="exp-role">Fullstack Developer Intern</div>
-                        <ul class="exp-bullets">
-                            <li>
-                                Created a portfolio web application with the
-                                MEAN stack, emphasizing reusable UI components
-                                and maintainable architecture.
-                            </li>
-                            <li>
-                                Delivered interactive frontend features with
-                                JavaScript (ES6+) and React, connecting dynamic
-                                interfaces with REST APIs.
-                            </li>
-                            <li>
-                                Collaborated in planning, design, and iterative
-                                development cycles within an agile workflow.
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SKILLS -->
-        <section id="skills">
-            <div class="section-header">
-                <span class="section-num">02 /</span>
-                <h2>Technical <em>Skills</em></h2>
-            </div>
-            <div class="skills-grid">
-                <div class="skill-group">
-                    <div class="skill-group-title">Languages & Web</div>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Java</span>
-                        <span class="skill-tag">JavaScript</span>
-                        <span class="skill-tag">HTML</span>
-                        <span class="skill-tag">CSS</span>
-                    </div>
-                </div>
-                <div class="skill-group">
-                    <div class="skill-group-title">Frameworks</div>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Spring Boot</span>
-                        <span class="skill-tag">Spring</span>
-                        <span class="skill-tag">Node.js</span>
-                        <span class="skill-tag">Express.js</span>
-                        <span class="skill-tag">EJS</span>
-                        <span class="skill-tag">React</span>
-                    </div>
-                </div>
-                <div class="skill-group">
-                    <div class="skill-group-title">Databases</div>
-                    <div class="skill-tags">
-                        <span class="skill-tag">MySQL</span>
-                        <span class="skill-tag">PostgreSQL</span>
-                        <span class="skill-tag">MongoDB</span>
-                    </div>
-                </div>
-                <div class="skill-group">
-                    <div class="skill-group-title">DevOps & Tools</div>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Docker</span>
-                        <span class="skill-tag">Jenkins</span>
-                        <span class="skill-tag">Git</span>
-                        <span class="skill-tag">REST APIs</span>
-                        <span class="skill-tag">Microservices</span>
-                        <span class="skill-tag">Netlify</span>
-                        <span class="skill-tag">PCF</span>
-                        <span class="skill-tag">OCP</span>
-                    </div>
-                </div>
-                <div class="skill-group">
-                    <div class="skill-group-title">Testing</div>
-                    <div class="skill-tags">
-                        <span class="skill-tag">JUnit</span>
-                        <span class="skill-tag">WireMock</span>
-                        <span class="skill-tag">Cucumber</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- PROJECTS -->
-        <section class="projects" id="projects">
-            <div class="section-header">
-                <span class="section-num">03 /</span>
-                <h2>Selected <em>Projects</em></h2>
-            </div>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-num">001</div>
-                    <div class="project-title">
-                        Virtual AI Agent Team — Waterfall Project Automation
-                    </div>
-                    <p class="project-desc">
-                        Fully automated multi-agent AI pipeline simulating an
-                        end-to-end Waterfall SDLC — no human input required. 7
-                        sequential agents (Customer Proxy, PM, Requirements,
-                        System, Software, Test, and Docs Engineers) share a
-                        growing conversation history via LangChain. Generates
-                        all 5 Waterfall phases and 10+ artifacts per run
-                        including SRS documents, REST API specs, DB schemas,
-                        test plans, and user manuals.
-                        <br /><br />
-                        Ran a comparative experiment across 3 LLMs with a team
-                        of 3: GPT-4o-mini produced 35 requirements, DeepSeek-V3
-                        produced 66, and Claude Haiku produced 230 — a 6.5×
-                        spread. Combined: 575 requirements, 301 test cases, and
-                        337 documentation pages. Key finding: model capability,
-                        not prompt design, drove output richness.
-                    </p>
-                    <div class="project-tags">
-                        <span class="project-tag">LangChain</span>
-                        <span class="project-tag">GPT-4o-mini</span>
-                        <span class="project-tag">Claude Haiku</span>
-                        <span class="project-tag">DeepSeek-V3</span>
-                        <span class="project-tag">Python</span>
-                        <span class="project-tag">Jupyter</span>
-                    </div>
-                    <a
-                        href="https://github.com/koustav516/CS587-FoodieHub-Waterfall-LangChain"
-                        class="project-link"
-                        target="_blank"
-                        >View on GitHub →</a
-                    >
-                </div>
-                <div class="project-card">
-                    <div class="project-num">002</div>
-                    <div class="project-title">
-                        Smart Home E-commerce Web Application
-                    </div>
-                    <p class="project-desc">
-                        Full-stack e-commerce platform built with Java Servlets,
-                        JSP, and MySQL — supporting 5 product categories with
-                        authentication, cart, and order workflows.
-                        <br /><br />
-                        Integrated AI-powered product recommendations and
-                        semantic review search using embeddings, improving
-                        product discovery by 30% across 1,000+ records. Built an
-                        intelligent customer support system that analyzes
-                        uploaded images and automates
-                        refund/replacement/escalation decisions, cutting manual
-                        effort by 60%.
-                    </p>
-                    <div class="project-tags">
-                        <span class="project-tag">Java Servlets</span>
-                        <span class="project-tag">JSP</span>
-                        <span class="project-tag">MySQL</span>
-                        <span class="project-tag">Embeddings</span>
-                        <span class="project-tag">AI Recommendations</span>
-                    </div>
-                    <a
-                        href="https://github.com/koustav516/SmartHome"
-                        class="project-link"
-                        target="_blank"
-                        >View on GitHub →</a
-                    >
-                </div>
-                <div class="project-card">
-                    <div class="project-num">003</div>
-                    <div class="project-title">
-                        AI-Powered Email Writer & Reply Assistant
-                    </div>
-                    <p class="project-desc">
-                        A Gmail Chrome extension that generates context-aware
-                        email replies using a Spring Boot backend and React
-                        frontend. Integrates Gemini LLM for automated responses
-                        via REST endpoints that analyze email context and tone
-                        preferences.
-                    </p>
-                    <div class="project-tags">
-                        <span class="project-tag">Spring Boot</span>
-                        <span class="project-tag">React</span>
-                        <span class="project-tag">Chrome Extension</span>
-                        <span class="project-tag">Gemini LLM</span>
-                        <span class="project-tag">REST API</span>
-                    </div>
-                    <a
-                        href="https://github.com/koustav516/email-writer-backend"
-                        class="project-link"
-                        target="_blank"
-                        >View on GitHub →</a
-                    >
-                </div>
-                <div class="project-card">
-                    <div class="project-num">004</div>
-                    <div class="project-title">Bcare Institute Website</div>
-                    <p class="project-desc">
-                        Fully responsive institutional website serving 500+
-                        monthly visitors. Features faculty listings, course
-                        pages, image carousels, and department filtering —
-                        boosting content discoverability by 40% and lowering
-                        bounce rate by 25% via SEO optimization.
-                    </p>
-                    <div class="project-tags">
-                        <span class="project-tag">HTML</span>
-                        <span class="project-tag">CSS</span>
-                        <span class="project-tag">JavaScript</span>
-                        <span class="project-tag">Netlify</span>
-                        <span class="project-tag">SEO</span>
-                    </div>
-                    <a
-                        href="https://bimtedu.org"
-                        class="project-link"
-                        target="_blank"
-                        >Live Demo →</a
-                    >
-                </div>
-                <div class="project-card">
-                    <div class="project-num">005</div>
-                    <div class="project-title">
-                        Online Campground Portfolio Portal
-                    </div>
-                    <p class="project-desc">
-                        Full-stack campground application with secure
-                        authentication and CRUD campground management.
-                        Integrates Cloudinary for image uploads and Mapbox for
-                        geolocation-based mapping, with user ratings, reviews,
-                        and dynamic search.
-                    </p>
-                    <div class="project-tags">
-                        <span class="project-tag">Node.js</span>
-                        <span class="project-tag">Express</span>
-                        <span class="project-tag">EJS</span>
-                        <span class="project-tag">Mapbox</span>
-                        <span class="project-tag">Cloudinary</span>
-                        <span class="project-tag">MongoDB</span>
-                    </div>
-                    <a
-                        href="https://github.com/koustav516/yelpcamp-updated"
-                        class="project-link"
-                        >VIEW ON Github →</a
-                    >
-                </div>
-                <div
-                    class="project-card"
-                    style="
-                        border-style: dashed;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        min-height: 200px;
-                    "
-                >
-                    <div style="text-align: center; color: var(--muted)">
-                        <div
-                            style="
-                                font-family:
-                                    &quot;Playfair Display&quot;, serif;
-                                font-size: 1.2rem;
-                                margin-bottom: 0.5rem;
-                                font-style: italic;
-                            "
-                        >
-                            More coming soon
-                        </div>
-                        <div
-                            style="
-                                font-family: &quot;DM Mono&quot;, monospace;
-                                font-size: 0.65rem;
-                                letter-spacing: 0.1em;
-                                text-transform: uppercase;
-                            "
-                        >
-                            Always building something new
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- EDUCATION -->
-        <section id="education">
-            <div class="section-header">
-                <span class="section-num">04 /</span>
-                <h2>Academic <em>Background</em></h2>
-            </div>
-            <div class="edu-grid">
-                <div class="edu-card">
-                    <div class="edu-degree">
-                        Master of Science, Computer Science
-                    </div>
-                    <div class="edu-school">
-                        Illinois Institute of Technology
-                    </div>
-                    <div class="edu-details">
-                        Chicago, IL · Aug 2024 — May 2026 · GPA 3.45
-                    </div>
-                </div>
-                <div class="edu-card">
-                    <div class="edu-degree">
-                        Bachelor of Technology, Computer Science Engineering
-                    </div>
-                    <div class="edu-school">Amity University</div>
-                    <div class="edu-details">
-                        Kolkata, India · Aug 2017 — May 2021
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CONTACT -->
-        <section class="contact" id="contact">
-            <div class="contact-bg"></div>
-            <div class="contact-inner">
-                <div
-                    class="section-header"
-                    style="justify-content: center; margin-bottom: 1rem"
-                >
-                    <span class="section-num">05 /</span>
-                    <h2>Let's <em>Connect</em></h2>
-                </div>
-                <p class="contact-sub">
-                    Open to full-time roles, collaborations, and interesting
-                    conversations. Reach out anytime.
-                </p>
-                <div class="contact-links">
-                    <a
-                        href="mailto:kmajumder@hawk.illinoistech.edu"
-                        class="contact-link"
-                    >
-                        <svg
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.5"
-                        >
-                            <rect x="2" y="4" width="20" height="16" rx="2" />
-                            <path
-                                d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"
-                            />
-                        </svg>
-                        Email Me
-                    </a>
-                    <a
-                        href="https://www.linkedin.com/in/koustav-majumder-030b931a0/"
-                        target="_blank"
-                        class="contact-link"
-                    >
-                        <svg
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.5"
-                        >
-                            <path
-                                d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
-                            />
-                            <rect x="2" y="9" width="4" height="12" />
-                            <circle cx="4" cy="4" r="2" />
-                        </svg>
-                        LinkedIn
-                    </a>
-                    <a
-                        href="https://github.com/koustav516"
-                        target="_blank"
-                        class="contact-link"
-                    >
-                        <svg
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.5"
-                        >
-                            <path
-                                d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"
-                            />
-                            <path d="M9 18c-4.51 2-5-2-7-2" />
-                        </svg>
-                        GitHub
-                    </a>
-                    <a href="tel:+13124834164" class="contact-link">
-                        <svg
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.5"
-                        >
-                            <path
-                                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
-                            />
-                        </svg>
-                        +1 312-483-4164
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <footer>
-            <div class="footer-text">© 2025 Koustav Majumder · Chicago, IL</div>
-            <a href="#home" class="footer-back">Back to top ↑</a>
-        </footer>
-
-        <script>
-            // Custom cursor
-            const cursor = document.getElementById("cursor");
-            const ring = document.getElementById("cursorRing");
-            let mouseX = 0,
-                mouseY = 0,
-                ringX = 0,
-                ringY = 0;
-
-            document.addEventListener("mousemove", (e) => {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-                cursor.style.left = mouseX + "px";
-                cursor.style.top = mouseY + "px";
-            });
-
-            function animateRing() {
-                ringX += (mouseX - ringX) * 0.12;
-                ringY += (mouseY - ringY) * 0.12;
-                ring.style.left = ringX + "px";
-                ring.style.top = ringY + "px";
-                requestAnimationFrame(animateRing);
-            }
-            animateRing();
-
-            document.querySelectorAll("a, button").forEach((el) => {
-                el.addEventListener("mouseenter", () => {
-                    cursor.style.transform = "translate(-50%, -50%) scale(2.5)";
-                    ring.style.opacity = "0.2";
-                });
-                el.addEventListener("mouseleave", () => {
-                    cursor.style.transform = "translate(-50%, -50%) scale(1)";
-                    ring.style.opacity = "0.5";
-                });
-            });
-
-            // Scroll reveal
-            const observer = new IntersectionObserver(
-                (entries) => {
-                    entries.forEach((entry) => {
-                        if (entry.isIntersecting) {
-                            entry.target.style.opacity = "1";
-                            entry.target.style.transform = "translateY(0)";
-                        }
-                    });
-                },
-                { threshold: 0.1 },
-            );
-
-            document
-                .querySelectorAll(
-                    ".exp-item, .skill-group, .project-card, .edu-card, .stat-card",
-                )
-                .forEach((el) => {
-                    el.style.opacity = "0";
-                    el.style.transform = "translateY(20px)";
-                    el.style.transition =
-                        "opacity 0.6s ease, transform 0.6s ease";
-                    observer.observe(el);
-                });
-        </script>
-
-        <!-- RESUME MODAL -->
-        <div
-            class="resume-modal-overlay"
-            id="resumeModal"
-            onclick="closeResumeOnOverlay(event)"
-        >
-            <div class="resume-modal">
-                <div class="resume-modal-header">
-                    <span class="resume-modal-title"
-                        >Koustav Majumder — Resume</span
-                    >
-                    <div class="resume-modal-actions">
-                        <a
-                            class="resume-btn-download"
-                            href="./assets/resume.pdf"
-                            download="KOUSTAV_MAJUMDER_Software_Engineer.pdf"
-                        >
-                            <svg
-                                width="13"
-                                height="13"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                            >
-                                <path
-                                    d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
-                                />
-                                <polyline points="7 10 12 15 17 10" />
-                                <line x1="12" y1="15" x2="12" y2="3" />
-                            </svg>
-                            Download PDF
-                        </a>
-                        <button class="resume-close" onclick="closeResume()">
-                            ✕
-                        </button>
-                    </div>
-                </div>
-                <iframe
-                    src="./assets/resume.pdf#toolbar=0"
-                    type="application/pdf"
-                ></iframe>
-            </div>
+            <iframe title="Résumé PDF" data-src="./assets/resume.pdf#toolbar=0"></iframe>
         </div>
-        <script>
-            // Resume modal
-            function openResume() {
-                document.getElementById("resumeModal").classList.add("open");
-                document.body.style.overflow = "hidden";
-            }
-            function closeResume() {
-                document.getElementById("resumeModal").classList.remove("open");
-                document.body.style.overflow = "";
-            }
-            function closeResumeOnOverlay(e) {
-                if (e.target === document.getElementById("resumeModal"))
-                    closeResume();
-            }
-            document.addEventListener("keydown", (e) => {
-                if (e.key === "Escape") closeResume();
-            });
-        </script>
-    </body>
+    </div>
+
+    <script src="script.js"></script>
+</body>
 </html>
