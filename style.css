@@ -460,7 +460,7 @@ kbd {
 .filter:hover { border-color: var(--ink); color: var(--ink); }
 .filter.is-on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 
-.projects { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.projects { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
 .project {
     display: flex; flex-direction: column; gap: 14px;
     background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius);
@@ -719,3 +719,9 @@ kbd {
     animation: blink 1.05s steps(1) infinite;
 }
 @keyframes blink { 50% { opacity: 0; } }
+
+/* last unpaired project card spans the row (set by script.js) */
+@media (min-width: 761px) {
+    .project.span-full { grid-column: 1 / -1; }
+    .project.span-full p { max-width: 80ch; }
+}

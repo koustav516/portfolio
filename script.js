@@ -290,6 +290,15 @@
 
     /* ---------------- project filters ---------------- */
     var filters = $$(".filter"), projects = $$(".project"), echo = $("#filterEcho"), empty = $("#projEmpty");
+    // If an odd number of regular cards is visible, stretch the last one across the row
+    function balanceGrid() {
+        var visible = projects.filter(function (p) {
+            p.classList.remove("span-full");
+            return !p.classList.contains("is-hidden") && !p.classList.contains("project-featured");
+        });
+        if (visible.length % 2 === 1) visible[visible.length - 1].classList.add("span-full");
+    }
+    balanceGrid();
     filters.forEach(function (f) {
         f.addEventListener("click", function () {
             var cat = f.dataset.filter, shown = 0;
@@ -298,11 +307,12 @@
                 x.setAttribute("aria-pressed", String(x === f));
             });
             projects.forEach(function (p) {
-                var show = cat === "all" || p.dataset.cat === cat;
+                var show = cat === "all" || p.dataset.cat.split(" ").indexOf(cat) > -1;
                 p.classList.toggle("is-hidden", !show);
                 if (show) shown++;
             });
             empty.hidden = shown > 0;
+            balanceGrid();
             echo.textContent = cat;
             var pc = $("#projCount");
             pc.textContent = shown;

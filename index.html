@@ -288,7 +288,7 @@
         <!-- ============ PROJECTS ============ -->
         <section class="section" id="projects">
             <header class="section-head reveal">
-                <div class="route"><span class="verb">GET</span> /projects<span class="q">?filter=<b id="filterEcho">all</b></span> <span class="st-json" aria-live="polite"><span class="arr" aria-hidden="true">→</span> { <span class="k">"count"</span>: <span class="n" id="projCount">4</span> }</span></div>
+                <div class="route"><span class="verb">GET</span> /projects<span class="q">?filter=<b id="filterEcho">all</b></span> <span class="st-json" aria-live="polite"><span class="arr" aria-hidden="true">→</span> { <span class="k">"count"</span>: <span class="n" id="projCount">6</span> }</span></div>
                 <h2>Things I've <em>built</em></h2>
             </header>
 
@@ -296,6 +296,7 @@
                 <button class="filter is-on" data-filter="all" aria-pressed="true">All</button>
                 <button class="filter" data-filter="java" aria-pressed="false">Java / Spring</button>
                 <button class="filter" data-filter="node" aria-pressed="false">Node.js</button>
+                <button class="filter" data-filter="ai" aria-pressed="false">AI / LLM</button>
                 <button class="filter" data-filter="web" aria-pressed="false">Web</button>
             </div>
 
@@ -323,12 +324,20 @@
                     <a href="https://mybrandbae.com" class="project-link" target="_blank" rel="noopener">Visit live site <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
                 </article>
 
-                <article class="project" data-cat="java">
+                <article class="project" data-cat="java ai">
                     <div class="project-top"><span class="project-path">/projects/email-writer</span></div>
                     <h3>AI Email Writer &amp; Reply Assistant</h3>
                     <p>A Gmail Chrome extension backed by Spring Boot that writes context-aware replies with the Gemini LLM. REST endpoints read the email's context and the requested tone, and custom Gmail controls are injected through Manifest V3 content scripts.</p>
                     <div class="tags"><span>Spring Boot</span><span>React</span><span>Gemini LLM</span><span>Chrome MV3</span><span>REST</span></div>
                     <a href="https://github.com/koustav516/email-writer-backend" class="project-link" target="_blank" rel="noopener">View on GitHub <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+                </article>
+
+                <article class="project" data-cat="ai">
+                    <div class="project-top"><span class="project-path">/projects/foodiehub-agents</span></div>
+                    <h3>FoodieHub: AI Agent Software Team</h3>
+                    <p>A virtual software team of seven LangChain agents: a customer proxy, a project manager, and requirements, system, software, test and documentation engineers. Together they run a full Waterfall lifecycle for a restaurant-chain app with no human input and write a timestamped Markdown report. The same code runs on GPT-4o-mini, DeepSeek-V3 or Llama 3.1 through Ollama. Built with Team 10 for CS587 at Illinois Tech.</p>
+                    <div class="tags"><span>Python</span><span>LangChain</span><span>Multi-agent</span><span>GPT-4o-mini</span><span>Ollama</span><span>Jupyter</span></div>
+                    <a href="https://github.com/koustav516/CS587-FoodieHub-Waterfall-LangChain" class="project-link" target="_blank" rel="noopener">View on GitHub <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
                 </article>
 
                 <article class="project" data-cat="web">
@@ -337,6 +346,14 @@
                     <p>A responsive institutional site serving 500+ monthly visitors, with faculty listings, course pages, carousels and department filtering. SEO work raised content discoverability by 40% and cut bounce rate by 25%.</p>
                     <div class="tags"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Netlify</span><span>SEO</span></div>
                     <a href="https://bimtedu.org" class="project-link" target="_blank" rel="noopener">Live site <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+                </article>
+
+                <article class="project" data-cat="node">
+                    <div class="project-top"><span class="project-path">/projects/pizza-app</span></div>
+                    <h3>Real-time Pizza Ordering App</h3>
+                    <p>A pizza delivery app where customers order and pay by card through Stripe or by cash on delivery, then watch their order status update live. Admins see new orders appear on a dashboard as they arrive and move them through each status. Socket.io rooms send each update only to the right customer. The app also has login with customer and admin roles, carts saved in MongoDB sessions, and a Leaflet store locator.</p>
+                    <div class="tags"><span>Node.js</span><span>Express</span><span>MongoDB</span><span>Socket.io</span><span>Stripe</span><span>Passport</span><span>EJS</span><span>Leaflet</span></div>
+                    <a href="https://github.com/koustav516/pizza-app" class="project-link" target="_blank" rel="noopener">View on GitHub <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
                 </article>
 
                 <article class="project" data-cat="node">
